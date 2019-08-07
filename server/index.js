@@ -6,7 +6,7 @@ app.use(express.json());
 
 const books = [
   { id: 1, name: "The Journey Not Traveled", author: "Scott Moore" },
-  { id: 2, name: "Eclipse", author: "Samantha D. Avery" }
+  { id: 2, name: "NightRunner", author: "Samantha D. Avery" }
 ];
 
 app.get("/", (req, res) => {
