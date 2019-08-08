@@ -17,3 +17,19 @@
 ####Dependencies (for Google)
 
 - passport, passport-google-oauth20 (short for 2.0 `npm install passport-google-oauth20@2 --save`)
+
+###Theory of Authentication
+
+- What is the value and purpose of OAuth?
+- HTTP is stateless (duh, also AJAX requests are also just HTTP requests), it has no way to identify or share information between two different requests. Authentication resolves this by tracking the data between the initial request, and the follow up after it's been validated.
+- User logs in, a unique token (or cookie, etc) is given back by the server proving that the user made the request. When the user makes a follow up request to the server (same day, a week later, whenever), the server will be provided the token and determine it's the same/correct user and return the appropriate data in response.
+
+#### continued
+
+- a header will be included inside the response sent back to the browser with a property called `Set-Cookie` with a value token string which will identify the user.
+- browser will automatically strip the token, store it in the browsers memory, then the browser will automatically append that cookie/token to any other requests made to the server.
+- the google profile's ID is the data we will use to determine that the user is the same between all login/interactions.
+- logging out "unsets" the cookie/token
+- new user: Google Account checked against mongoDB, if user is not in the database create a new user. The assumption is that any user, new or not, may be an existing user and we will need to first check that.
+- returning user: Check against mongoDB if match, no need to create new account, instead return matching mongoDB user data.
+- SUMMARY: We simply use OAuth to leverage the security and reliability of Google to confirm profiles and then garner a unique id from the google account that the user provided. That unique id will be used to check against the local mongoDB to determine whether the user is new or returning.
