@@ -1,10 +1,15 @@
 const express = require("express");
-const Joi = require("@hapi/joi");
+const mongoose = require("mongoose");
+const keys = require("./config/keys");
+require("./models/User");
 require("./services/passport");
 
 const app = express();
 require("./routes/authRoutes")(app);
-
+mongoose
+  .connect(keys.mongoURI, { useNewUrlParser: true })
+  .then(() => console.log("Connected to MongoDB!"))
+  .catch(err => console.log("Could not connect to MongoDB", err));
 app.use(express.json());
 
 // const books = [
