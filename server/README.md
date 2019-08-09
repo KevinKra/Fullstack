@@ -33,3 +33,20 @@
 - new user: Google Account checked against mongoDB, if user is not in the database create a new user. The assumption is that any user, new or not, may be an existing user and we will need to first check that.
 - returning user: Check against mongoDB if match, no need to create new account, instead return matching mongoDB user data.
 - SUMMARY: We simply use OAuth to leverage the security and reliability of Google to confirm profiles and then garner a unique id from the google account that the user provided. That unique id will be used to check against the local mongoDB to determine whether the user is new or returning.
+
+##MongoDB
+
+- comprised of `collections` which contain n `records`. Example: collection of users, posts, payments, etc.
+- `records` in collections are JSON objects, simply key-value pairs.
+- Important!: MongoDB is a schema-less database. Which means each `record` in a `collection` can have unique properties. This is directly contrasting to traditional SQL / relational databases where every single `record` would need to have matching properties. However, leveraging Mongoose requires a schema to be built.
+
+###Mongoose
+
+- a `Model Class` represents an entire MongoDB collection. Each instance of this `Model Class` is a `Model Instance` that represents a single mongoDB `record`.
+- 1 (Mongoose) `Model Class` === 1 (Mongo) `Collection`
+- 1 (Mongoose) `Model Instance` === 1 (Mongo) `Record`
+- Mongoose curtails the ability to have random properties on records, mongoose needs a schema to be built. Additionally, you can freely add / remove schema properties.
+
+####Saving Model Instances
+
+- When a `Model Instance` is created ( ex: `new User({ googleId: profile.id })` ), it will not persist because does not yet exist on the database. In order to save the `Model Instance` to the database the `.save()` method must be called on it.
