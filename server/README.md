@@ -50,3 +50,8 @@
 ####Saving Model Instances
 
 - When a `Model Instance` is created ( ex: `new User({ googleId: profile.id })` ), it will not persist because does not yet exist on the database. In order to save the `Model Instance` to the database the `.save()` method must be called on it.
+
+####Querying Collections
+
+- Any query made to the MongoDB is an asynchronous function. We have to interact with promises when querying the database.
+- Check database to make sure duplicates (user accounts for instance) are not being created.
