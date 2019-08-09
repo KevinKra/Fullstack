@@ -1,16 +1,29 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieSession = require("cookie-session");
+const passport = require("passport");
 const keys = require("./config/keys");
 require("./models/User");
 require("./services/passport");
 
 const app = express();
-require("./routes/authRoutes")(app);
+
 mongoose
   .connect(keys.mongoURI, { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB!"))
   .catch(err => console.log("Could not connect to MongoDB", err));
 app.use(express.json());
+
+//maxAge: how long a cookie can last before it can expire
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+require("./routes/authRoutes")(app);
 
 // const books = [
 //   { id: 1, name: "The Journey Not Traveled", author: "Scott Moore" },
